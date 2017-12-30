@@ -1,0 +1,70 @@
+{
+  "name": "browser-peer",
+  "version": "0.0.1",
+  "description": "ES6 simple-peer for the browser",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "src"
+  ],
+  "scripts": {
+    "test": "zuul --local -- test/*.js",
+    "clean": "rimraf lib dist es",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min && npm run build:es",
+    "build:watch": "echo 'build && watch the COMMONJS version of the package - for other version, run specific tasks' && npm run build:commonjs:watch",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:commonjs:watch": "npm run build:commonjs -- --watch",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es",
+    "build:es:watch": "npm run build:es -- --watch",
+    "build:umd": "cross-env BABEL_ENV=es NODE_ENV=development node_modules/.bin/rollup src/peer.js --config --sourcemap --output.file dist/browser-peer.js",
+    "build:umd:watch": "npm run build:umd -- --watch",
+    "build:umd:min": "cross-env BABEL_ENV=es NODE_ENV=production rollup src/peer.js --config --output.file dist/browser-peer.min.js"
+  },
+  "author": "Tom Sherman",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tom-sherman/browser-peer.git"
+  },
+  "bugs": "https://github.com/tom-sherman/browser-peer/issues",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.3",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.53.2",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "rollup-watch": "^4.3.1",
+    "simple-get": "^2.7.0",
+    "tape": "^4.8.0",
+    "thunky": "^1.0.2",
+    "zuul": "^3.11.1"
+  },
+  "keywords": [
+    "simple-peer",
+    "data",
+    "data channel",
+    "data channel stream",
+    "data channels",
+    "p2p",
+    "peer",
+    "peer-to-peer",
+    "stream",
+    "video",
+    "voice",
+    "webrtc",
+    "webrtc stream"
+  ]
+}
