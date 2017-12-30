@@ -131,7 +131,6 @@ export default class Peer extends EventEmitter {
       this._pc.onnegotiationneeded()
     }
 
-    // TODO: Simplify this?
     this._onFinishBound = () => {
       this._onFinish()
     }
@@ -752,7 +751,6 @@ export default class Peer extends EventEmitter {
   }
 
   // ***** CALLBACKS ***** //
-  // TODO: Emit events for all
 
   _onFinish () {
     if (this.destroyed) return

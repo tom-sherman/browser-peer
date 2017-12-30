@@ -69,8 +69,6 @@ test('data send/receive text', function (t) {
     t.equal(peer1.initiator, true, 'peer1 is initiator')
     t.equal(peer2.initiator, false, 'peer2 is not initiator')
 
-    // TODO: re-enable after Chrome 58 is released!
-
     t.equal(typeof peer1.localAddress, 'string')
     t.equal(typeof peer1.localPort, 'number')
     t.equal(typeof peer2.localAddress, 'string')
