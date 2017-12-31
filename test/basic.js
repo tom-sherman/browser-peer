@@ -1,6 +1,8 @@
 var Peer = require('../lib/peer.js').default
 var test = require('tape')
 
+window.Peer = Peer
+
 test('detect WebRTC support', function (t) {
   t.equal(Peer.WEBRTC_SUPPORT, typeof window !== 'undefined', 'builtin webrtc support')
   t.end()
