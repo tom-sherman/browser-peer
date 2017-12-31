@@ -1,21 +1,11 @@
-var common = require('./common')
 var Peer = require('../lib/peer.js').default
 var test = require('tape')
-
-var config
-test('get config', function (t) {
-  common.getConfig(function (err, _config) {
-    if (err) return t.fail(err)
-    config = _config
-    t.end()
-  })
-})
 
 test('disable trickle', function (t) {
   t.plan(8)
 
-  var peer1 = new Peer({ config: config, initiator: true, trickle: false, wrtc: common.wrtc })
-  var peer2 = new Peer({ config: config, trickle: false, wrtc: common.wrtc })
+  var peer1 = new Peer({ initiator: true, trickle: false })
+  var peer2 = new Peer({ trickle: false })
 
   var numSignal1 = 0
   peer1.on('signal', function (data) {
@@ -58,8 +48,8 @@ test('disable trickle', function (t) {
 test('disable trickle (only initiator)', function (t) {
   t.plan(8)
 
-  var peer1 = new Peer({ config: config, initiator: true, trickle: false, wrtc: common.wrtc })
-  var peer2 = new Peer({ config: config, wrtc: common.wrtc })
+  var peer1 = new Peer({ initiator: true, trickle: false })
+  var peer2 = new Peer()
 
   var numSignal1 = 0
   peer1.on('signal', function (data) {
@@ -102,8 +92,8 @@ test('disable trickle (only initiator)', function (t) {
 test('disable trickle (only receiver)', function (t) {
   t.plan(8)
 
-  var peer1 = new Peer({ config: config, initiator: true, wrtc: common.wrtc })
-  var peer2 = new Peer({ config: config, trickle: false, wrtc: common.wrtc })
+  var peer1 = new Peer({ initiator: true })
+  var peer2 = new Peer({ trickle: false })
 
   var numSignal1 = 0
   peer1.on('signal', function (data) {
