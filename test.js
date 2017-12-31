@@ -1,7 +1,6 @@
 const fs = require('fs')
 const browserify = require('browserify')
 const run = require('tape-run')
-const tapDiff = require('tap-difflet')
 
 var bundle = browserify()
   .add('./test/index.js')
