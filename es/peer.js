@@ -145,7 +145,6 @@ var Peer = function (_EventEmitter) {
       _this._pc.onnegotiationneeded();
     }
 
-    // TODO: Simplify this?
     _this._onFinishBound = function () {
       _this._onFinish();
     };
@@ -700,7 +699,6 @@ var Peer = function (_EventEmitter) {
     }
 
     // ***** CALLBACKS ***** //
-    // TODO: Emit events for all
 
   }, {
     key: '_onFinish',

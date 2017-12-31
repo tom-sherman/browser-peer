@@ -15,7 +15,7 @@
     "src"
   ],
   "scripts": {
-    "test": "browserify ./test/index.js | tape-run",
+    "test": "node ./test.js",
     "clean": "rimraf lib dist es",
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min && npm run build:es",
     "build:watch": "echo 'build && watch the COMMONJS version of the package - for other version, run specific tasks' && npm run build:commonjs:watch",
