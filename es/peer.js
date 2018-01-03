@@ -1,3 +1,13 @@
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 import uuid from './util/uuid.js';
 import getBrowserRTC from './util/get-browser-rtc.js';
 import ipVersion from './util/ipvx.js';
@@ -21,16 +31,16 @@ var CHROMIUM = typeof window !== 'undefined' && !!window.webkitRTCPeerConnection
  */
 
 var Peer = function (_EventEmitter) {
-  babelHelpers.inherits(Peer, _EventEmitter);
+  _inherits(Peer, _EventEmitter);
 
   /**
    * Creates a new P2P connection and sets up internal WebRTC events.
    * @param {PeerOptions} opts
    */
   function Peer(opts) {
-    babelHelpers.classCallCheck(this, Peer);
+    _classCallCheck(this, Peer);
 
-    var _this = babelHelpers.possibleConstructorReturn(this, (Peer.__proto__ || Object.getPrototypeOf(Peer)).call(this));
+    var _this = _possibleConstructorReturn(this, (Peer.__proto__ || Object.getPrototypeOf(Peer)).call(this));
 
     _this._id = uuid().substr(0, 8);
     // self._debug('new peer %o', opts)
@@ -65,7 +75,7 @@ var Peer = function (_EventEmitter) {
     _this.localAddress = undefined;
     _this.localPort = undefined;
 
-    _this._wrtc = _this.opts.wrtc && babelHelpers.typeof(_this.opts.wrtc) === 'object' ? _this.opts.wrtc : getBrowserRTC();
+    _this._wrtc = _this.opts.wrtc && _typeof(_this.opts.wrtc) === 'object' ? _this.opts.wrtc : getBrowserRTC();
 
     if (!_this._wrtc) {
       throw new Error('No WebRTC support: Not a supported browser');
@@ -150,7 +160,7 @@ var Peer = function (_EventEmitter) {
    */
 
 
-  babelHelpers.createClass(Peer, [{
+  _createClass(Peer, [{
     key: 'signal',
 
 
@@ -315,7 +325,7 @@ var Peer = function (_EventEmitter) {
       if (this.destroyed) return;
       if (onclose) this.once('close', onclose);
 
-      // this._debug('destroy (error: %s)', err && (err.message || err))
+      this._debug('destroy (error: %s)', err && (err.message || err));
 
       // this.readable = this.writable = false
       //
@@ -439,13 +449,13 @@ var Peer = function (_EventEmitter) {
           return this._destroy(err);
         }
         if (this._channel.bufferedAmount > MAX_BUFFERED_AMOUNT) {
-          // this._debug('start backpressure: bufferedAmount %d', this._channel.bufferedAmount)
+          this._debug('start backpressure: bufferedAmount %d', this._channel.bufferedAmount);
           this._cb = cb;
         } else {
           cb(null);
         }
       } else {
-        // this._debug('write before connect')
+        this._debug('write before connect');
         this._chunk = chunk;
         this._cb = cb;
       }
@@ -465,7 +475,7 @@ var Peer = function (_EventEmitter) {
 
         var sendOffer = function sendOffer() {
           var signal = _this4._pc.localDescription || offer;
-          // this._debug('signal')
+          _this4._debug('signal');
           _this4.emit('signal', {
             type: signal.type,
             sdp: signal.sdp
@@ -498,7 +508,7 @@ var Peer = function (_EventEmitter) {
 
         var sendAnswer = function sendAnswer() {
           var signal = _this5._pc.localDescription || answer;
-          // this._debug('signal')
+          _this5._debug('signal');
           _this5.emit('signal', {
             type: signal.type,
             sdp: signal.sdp
@@ -523,11 +533,7 @@ var Peer = function (_EventEmitter) {
       var iceConnectionState = this._pc.iceConnectionState;
       var iceGatheringState = this._pc.iceGatheringState;
 
-      // this._debug(
-      //   'iceStateChange (connection: %s) (gathering: %s)',
-      //   iceConnectionState,
-      //   iceGatheringState
-      // )
+      this._debug('iceStateChange (connection: %s) (gathering: %s)', iceConnectionState, iceGatheringState);
       this.emit('iceStateChange', iceConnectionState, iceGatheringState);
 
       if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
@@ -558,7 +564,7 @@ var Peer = function (_EventEmitter) {
     value: function _maybeReady() {
       var _this6 = this;
 
-      // this._debug('maybeReady pc %s channel %s', this._pcReady, this._channelReady)
+      this._debug('maybeReady pc %s channel %s', this._pcReady, this._channelReady);
       if (this.connected || this._connecting || !this._pcReady || !this._channelReady) return;
 
       this._connecting = true;
@@ -616,10 +622,7 @@ var Peer = function (_EventEmitter) {
             }
             _this6.remoteFamily = 'IPv4';
 
-            // this._debug(
-            //   'connect local: %s:%s remote: %s:%s',
-            //   this.localAddress, this.localPort, this.remoteAddress, this.remotePort
-            // )
+            _this6._debug('connect local: %s:%s remote: %s:%s', _this6.localAddress, _this6.localPort, _this6.remoteAddress, _this6.remotePort);
           };
 
           items.forEach(function (item) {
@@ -662,7 +665,7 @@ var Peer = function (_EventEmitter) {
               return _this6._destroy(err);
             }
             _this6._chunk = null;
-            // this._debug('sent chunk from "write before connect"')
+            _this6._debug('sent chunk from "write before connect"');
 
             var cb = _this6._cb;
             _this6._cb = null;
@@ -676,7 +679,7 @@ var Peer = function (_EventEmitter) {
             if (_this6._interval.unref) _this6._interval.unref();
           }
 
-          // this._debug('connect')
+          _this6._debug('connect');
           _this6.emit('connect');
           if (_this6._earlyMessage) {
             // HACK: Workaround for Chrome not firing "open" between tabs
@@ -721,7 +724,7 @@ var Peer = function (_EventEmitter) {
     key: '_onSignalingStateChange',
     value: function _onSignalingStateChange() {
       if (this.destroyed) return;
-      // this._debug('signalingStateChange %s', this._pc.signalingState)
+      this._debug('signalingStateChange %s', this._pc.signalingState);
       this.emit('signalingStateChange', this._pc.signalingState);
     }
   }, {
@@ -753,7 +756,7 @@ var Peer = function (_EventEmitter) {
     key: '_onChannelBufferedAmountLow',
     value: function _onChannelBufferedAmountLow() {
       if (this.destroyed || !this._cb) return;
-      // this._debug('ending backpressure: bufferedAmount %d', this._channel.bufferedAmount)
+      this._debug('ending backpressure: bufferedAmount %d', this._channel.bufferedAmount);
       var cb = this._cb;
       this._cb = null;
       cb(null);
@@ -771,7 +774,7 @@ var Peer = function (_EventEmitter) {
     key: '_onChannelClose',
     value: function _onChannelClose() {
       if (this.destroyed) return;
-      // this._debug('on channel close')
+      this._debug('on channel close');
       this._destroy();
     }
   }, {
@@ -924,6 +927,7 @@ var Peer = function (_EventEmitter) {
       return {};
     }
   }]);
+
   return Peer;
 }(EventEmitter);
 

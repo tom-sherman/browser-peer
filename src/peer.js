@@ -396,7 +396,7 @@ export default class Peer extends EventEmitter {
     if (this.destroyed) return
     if (onclose) this.once('close', onclose)
 
-    // this._debug('destroy (error: %s)', err && (err.message || err))
+    this._debug('destroy (error: %s)', err && (err.message || err))
 
     // this.readable = this.writable = false
     //
@@ -511,13 +511,13 @@ export default class Peer extends EventEmitter {
         return this._destroy(err)
       }
       if (this._channel.bufferedAmount > MAX_BUFFERED_AMOUNT) {
-        // this._debug('start backpressure: bufferedAmount %d', this._channel.bufferedAmount)
+        this._debug('start backpressure: bufferedAmount %d', this._channel.bufferedAmount)
         this._cb = cb
       } else {
         cb(null)
       }
     } else {
-      // this._debug('write before connect')
+      this._debug('write before connect')
       this._chunk = chunk
       this._cb = cb
     }
@@ -535,7 +535,7 @@ export default class Peer extends EventEmitter {
 
       var sendOffer = () => {
         var signal = this._pc.localDescription || offer
-        // this._debug('signal')
+        this._debug('signal')
         this.emit('signal', {
           type: signal.type,
           sdp: signal.sdp
@@ -564,7 +564,7 @@ export default class Peer extends EventEmitter {
 
       var sendAnswer = () => {
         var signal = this._pc.localDescription || answer
-        // this._debug('signal')
+        this._debug('signal')
         this.emit('signal', {
           type: signal.type,
           sdp: signal.sdp
@@ -586,11 +586,11 @@ export default class Peer extends EventEmitter {
     var iceConnectionState = this._pc.iceConnectionState
     var iceGatheringState = this._pc.iceGatheringState
 
-    // this._debug(
-    //   'iceStateChange (connection: %s) (gathering: %s)',
-    //   iceConnectionState,
-    //   iceGatheringState
-    // )
+    this._debug(
+      'iceStateChange (connection: %s) (gathering: %s)',
+      iceConnectionState,
+      iceGatheringState
+    )
     this.emit('iceStateChange', iceConnectionState, iceGatheringState)
 
     if (iceConnectionState === 'connected' || iceConnectionState === 'completed') {
@@ -618,7 +618,7 @@ export default class Peer extends EventEmitter {
   }
 
   _maybeReady () {
-    // this._debug('maybeReady pc %s channel %s', this._pcReady, this._channelReady)
+    this._debug('maybeReady pc %s channel %s', this._pcReady, this._channelReady)
     if (this.connected || this._connecting || !this._pcReady || !this._channelReady) return
 
     this._connecting = true
@@ -676,10 +676,10 @@ export default class Peer extends EventEmitter {
           }
           this.remoteFamily = 'IPv4'
 
-          // this._debug(
-          //   'connect local: %s:%s remote: %s:%s',
-          //   this.localAddress, this.localPort, this.remoteAddress, this.remotePort
-          // )
+          this._debug(
+            'connect local: %s:%s remote: %s:%s',
+            this.localAddress, this.localPort, this.remoteAddress, this.remotePort
+          )
         }
 
         items.forEach(function (item) {
@@ -725,7 +725,7 @@ export default class Peer extends EventEmitter {
             return this._destroy(err)
           }
           this._chunk = null
-          // this._debug('sent chunk from "write before connect"')
+          this._debug('sent chunk from "write before connect"')
 
           var cb = this._cb
           this._cb = null
@@ -739,7 +739,7 @@ export default class Peer extends EventEmitter {
           if (this._interval.unref) this._interval.unref()
         }
 
-        // this._debug('connect')
+        this._debug('connect')
         this.emit('connect')
         if (this._earlyMessage) { // HACK: Workaround for Chrome not firing "open" between tabs
           this._onChannelMessage(this._earlyMessage)
@@ -779,7 +779,7 @@ export default class Peer extends EventEmitter {
 
   _onSignalingStateChange () {
     if (this.destroyed) return
-    // this._debug('signalingStateChange %s', this._pc.signalingState)
+    this._debug('signalingStateChange %s', this._pc.signalingState)
     this.emit('signalingStateChange', this._pc.signalingState)
   }
 
@@ -808,7 +808,7 @@ export default class Peer extends EventEmitter {
 
   _onChannelBufferedAmountLow () {
     if (this.destroyed || !this._cb) return
-    // this._debug('ending backpressure: bufferedAmount %d', this._channel.bufferedAmount)
+    this._debug('ending backpressure: bufferedAmount %d', this._channel.bufferedAmount)
     var cb = this._cb
     this._cb = null
     cb(null)
@@ -824,7 +824,7 @@ export default class Peer extends EventEmitter {
 
   _onChannelClose () {
     if (this.destroyed) return
-    // this._debug('on channel close')
+    this._debug('on channel close')
     this._destroy()
   }
 

@@ -1,3 +1,7 @@
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 import { isFunction } from './util/is-type.js';
 
 // TODO: Strip out into own module
@@ -6,12 +10,12 @@ import { isFunction } from './util/is-type.js';
 
 var EventEmitter = function () {
   function EventEmitter() {
-    babelHelpers.classCallCheck(this, EventEmitter);
+    _classCallCheck(this, EventEmitter);
 
     this._eventMap = new Map();
   }
 
-  babelHelpers.createClass(EventEmitter, [{
+  _createClass(EventEmitter, [{
     key: 'addListener',
     value: function addListener(labelString, callback) {
       var _this = this;
@@ -106,6 +110,7 @@ var EventEmitter = function () {
       return emitter.listenerCount(type);
     }
   }]);
+
   return EventEmitter;
 }();
 
