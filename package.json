@@ -15,7 +15,7 @@
     "src"
   ],
   "scripts": {
-    "test": "node ./test.js",
+    "test": "standard && npm run build && node ./test.js",
     "clean": "rimraf lib dist es",
     "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min && npm run build:es",
     "build:watch": "echo 'build && watch the COMMONJS version of the package - for other version, run specific tasks' && npm run build:commonjs:watch",
@@ -48,6 +48,7 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.3.1",
+    "standard": "^10.0.3",
     "tape": "^4.8.0",
     "tape-run": "^3.0.1"
   },
