@@ -6,4 +6,5 @@
 require('./basic.js')
 require('./binary.js')
 require('./object-mode.js')
+require('./stream')
 require('./trickle.js')
