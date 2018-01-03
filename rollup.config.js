@@ -1,21 +1,42 @@
-const outConfig = {
-  name: 'Peer'
-}
+import nodeResolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
+import babel from 'rollup-plugin-babel'
+import replace from 'rollup-plugin-replace'
+import uglify from 'rollup-plugin-uglify'
 
-export default {
-  input: './src/peer.js',
-  output: [
-    Object.assign({}, outConfig, { // ES6
-      file: './index.js',
-      format: 'es'
+var env = process.env.NODE_ENV
+var config = {
+  format: 'umd',
+  moduleName: 'BrowserPeer',
+  plugins: [
+    nodeResolve({
+      jsnext: true
     }),
-    Object.assign({}, outConfig, { // IIFE
-      file: './dist/browser-peer.js',
-      format: 'iife'
+    // due to https://github.com/rollup/rollup/wiki/Troubleshooting#name-is-not-exported-by-module
+    commonjs({
+      include: 'node_modules/**',
+      namedExports: { /* './node_module/invariant.js': ['default'] */ }
     }),
-    Object.assign({}, outConfig, { // CJS
-      file: './dist/browser-peer.cjs.js',
-      format: 'cjs'
+    babel({
+      exclude: 'node_modules/**'
+    }),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify(env)
     })
   ]
 }
+
+if (env === 'production') {
+  config.plugins.push(
+    uglify({
+      compress: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        warnings: false
+      }
+    })
+  )
+}
+
+export default config

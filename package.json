@@ -2,9 +2,9 @@
   "name": "browser-peer",
   "version": "0.0.1",
   "description": "ES6 simple-peer for the browser",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "jsnext:main": "es/index.js",
+  "main": "lib/peer.js",
+  "module": "es/peer.js",
+  "jsnext:main": "es/peer.js",
   "directories": {
     "test": "test"
   },
@@ -37,6 +37,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "browserify": "^14.5.0",
     "cross-env": "^5.1.3",
